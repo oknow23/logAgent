@@ -4,6 +4,6 @@ ifeq ($(CC),'')
 endif
 
 all: clean
-	$(CC) $(OBJNAME).c -L . -llogAG -o $(OBJNAME).o
+	$(CC) $(OBJNAME).c -L . -llogAG -o $(OBJNAME)
 clean:
-	rm -f $(OBJNAME).o
+	rm -f $(OBJNAME)
