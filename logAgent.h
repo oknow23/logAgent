@@ -32,8 +32,9 @@
 #define LOGAG_VERSION			0.0.1
 #define EXPIRED_DAY		10			//delete log file time
 #define LOG_HEAD		""			//if empty,use file name
-#define AUTHOR			"oknow"		//show name in message
+#define AUTHOR			""		//show name in message
 #define	LOGDBG			0
+#define FILE_NAME 		"RuleEngine"
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 

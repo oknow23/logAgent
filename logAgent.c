@@ -39,7 +39,8 @@ int writeLog(char *msg,char *file_name,int line)
 int remove_sub_name(char *log_name,char *file_name){
 	char *p;
 	
-	sprintf(log_name,"%s",file_name);
+	/*deside use file name or define name*/
+	sprintf(log_name,"%s",(strlen(FILE_NAME) > 1)?FILE_NAME:file_name);
 	p = strchr(log_name,'.');
 	if(p!= NULL)
 		*p = '\0';
