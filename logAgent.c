@@ -6,6 +6,7 @@
 #include <time.h>
 
 #include "logAgent.h"
+#define LOGLIST_PATH	"/tmp/loglist.txt"
 
 static char date[64];
 
@@ -27,6 +28,7 @@ int writeLog(char *msg,char *file_name,int line)
 	char fn[64];
 	char time[64];
 	
+	system("mkdir -p log");
 	check_log_expried(fn,file_name);
 	getTime(time);
 	sprintf(buf,"echo -n '%s %s[%s:%d] %s' >> %s",time,AUTHOR, file_name, line,msg,fn);
@@ -40,7 +42,7 @@ int remove_sub_name(char *log_name,char *file_name){
 	char *p;
 	
 	/*deside use file name or define name*/
-	sprintf(log_name,"%s",(strlen(FILE_NAME) > 1)?FILE_NAME:file_name);
+	sprintf(log_name,"log/%s",(strlen(FILE_NAME) > 1)?FILE_NAME:file_name);
 	p = strchr(log_name,'.');
 	if(p!= NULL)
 		*p = '\0';
@@ -69,9 +71,9 @@ int delExpiredLog(char *file_name){
 	int i = 0;
 	
 	remove_sub_name(log_name,file_name);
-	sprintf(cmd,"ls -r %s*.log > loglist.txt",log_name);
+	sprintf(cmd,"ls -r %s*.log > %s 2>/tmp/lserror.log",log_name,LOGLIST_PATH);
 	system(cmd);
-	if((fp = fopen("loglist.txt","r"))){
+	if((fp = fopen(LOGLIST_PATH,"r"))){
 		while(fgets(log_name,64,fp)){
 			i++;
 //			printf("billy[%s:%d,%s] log_name = %s i = %d\n", __FILENAME__, __LINE__, __FUNCTION__,log_name,i);
