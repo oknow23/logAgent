@@ -24,7 +24,7 @@ int getTime(char *p) {
 
 int writeLog(char *msg,char *file_name,int line)
 {
-	char buf[1024];
+	char buf[strlen(msg)+64];
 	char fn[64];
 	char time[64];
 	
