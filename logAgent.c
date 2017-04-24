@@ -27,10 +27,13 @@ int writeLog(char *msg,char *file_name,int line)
 	char buf[strlen(msg)+64];
 	char fn[64];
 	char time[64];
+	char *ptmp;
 	
 	system("mkdir -p log");
 	check_log_expried(fn,file_name);
 	getTime(time);
+	if((ptmp = strchr(msg,'\n')) != NULL)
+		*ptmp = '\0';
 	snprintf(buf,sizeof(buf),"echo -n '%s %s[%s:%d] %s' >> %s",time,AUTHOR, file_name, line,msg,fn);
 	if(LOGDBG)fprintf(stdout,"billy[%s:%d,%s] buf = %s\n",__FILE__, line, __FUNCTION__,buf);
 	system(buf);
