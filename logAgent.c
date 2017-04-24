@@ -31,7 +31,7 @@ int writeLog(char *msg,char *file_name,int line)
 	system("mkdir -p log");
 	check_log_expried(fn,file_name);
 	getTime(time);
-	sprintf(buf,"echo -n '%s %s[%s:%d] %s' >> %s",time,AUTHOR, file_name, line,msg,fn);
+	snprintf(buf,sizeof(buf),"echo -n '%s %s[%s:%d] %s' >> %s",time,AUTHOR, file_name, line,msg,fn);
 	if(LOGDBG)fprintf(stdout,"billy[%s:%d,%s] buf = %s\n",__FILE__, line, __FUNCTION__,buf);
 	system(buf);
 
