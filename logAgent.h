@@ -34,6 +34,7 @@
 #define LOG_HEAD		""			//if empty,use file name
 #define AUTHOR			""		//show name in message
 #define	LOGDBG			0
+#define MAX_SIZE		4096
 #define FILE_NAME 		"RuleEngine"
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
