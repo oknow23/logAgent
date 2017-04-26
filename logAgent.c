@@ -22,22 +22,34 @@ int getTime(char *p) {
 	return 1;
 }
 
+pthread_mutex_t log_mutex;
 int writeLog(char *msg,char *file_name,int line)
 {
-	char buf[strlen(msg)+64];
+	pthread_mutex_lock(&log_mutex);
+	char buf[MAX_SIZE];
 	char fn[64];
 	char time[64];
-	char *ptmp;
+	char *p;
+	char *msg_tmp;
 	
 	system("mkdir -p log");
 	check_log_expried(fn,file_name);
 	getTime(time);
-	if((ptmp = strchr(msg,'\n')) != NULL)
-		*ptmp = '\0';
-	snprintf(buf,sizeof(buf),"echo -n '%s %s[%s:%d] %s' >> %s",time,AUTHOR, file_name, line,msg,fn);
-	if(LOGDBG)fprintf(stdout,"billy[%s:%d,%s] buf = %s\n",__FILE__, line, __FUNCTION__,buf);
+	msg_tmp = strdup(msg);
+
+	/*skip '\n'*/
+	p = strchr(msg_tmp,'\n');
+	if( p != NULL)
+		*p = '\0';
+
+	/*write to log file*/
+	snprintf(buf,sizeof(buf),"echo -n '%s %s[%s:%d] %s' >> %s",time,AUTHOR, file_name, line,msg_tmp,fn);
+	if(LOGDBG)fprintf(stdout,"billy[%s:%d,%s] size = %d buf = %s\n",__FILE__, line, __FUNCTION__,sizeof(buf),buf);
 	system(buf);
 
+	free(msg_tmp);
+
+	pthread_mutex_unlock(&log_mutex);
 	return 1;
 }
 
