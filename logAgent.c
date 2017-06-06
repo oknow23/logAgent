@@ -4,11 +4,15 @@
 #include <errno.h>
 #include <sys/time.h>
 #include <time.h>
+#include <pthread.h>
+#include <sys/types.h>
 
 #include "logAgent.h"
 #define LOGLIST_PATH	"/tmp/loglist.txt"
 
 static char date[64];
+
+int check_log_expried(char *fn,char *file_name);
 
 int getTime(char *p) {
 	time_t lt;
@@ -37,7 +41,7 @@ int writeLog(char *msg,char *file_name,int line)
 
 	/*write to log file*/
 	snprintf(buf,sizeof(buf),"echo -n '%s %s[%s:%d] %s' >> %s",time,AUTHOR, file_name, line,msg,fn);
-	if(LOGDBG)fprintf(stdout,"billy[%s:%d,%s] size = %d buf = %s\n",__FILE__, line, __FUNCTION__,sizeof(buf),buf);
+	if(LOGDBG)fprintf(stdout,"billy[%s:%d,%s] size = %ld buf = %s\n",__FILE__, line, __FUNCTION__,sizeof(buf),buf);
 	system(buf);
 
 	pthread_mutex_unlock(&log_mutex);

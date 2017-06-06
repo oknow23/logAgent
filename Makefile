@@ -10,7 +10,7 @@ ifeq ($(AR),'')
 endif
 
 All: clean
-	$(CC) -c logAgent.c -o $(OBJS)
+	$(CC) -c logAgent.c -o $(OBJS) -lpthread
 	$(AR) rcs $(SLIB) $(OBJS)
 	cp $(SLIB) example
 
